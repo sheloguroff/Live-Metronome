@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Live Metronome</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit">Edit</string>
+    <string name="title_activity_song_list">SongListActivity</string>
+
+</resources>
