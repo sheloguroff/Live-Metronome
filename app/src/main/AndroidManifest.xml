@@ -24,7 +24,7 @@
         </activity>
 
         <receiver
-            android:name=".MyReceiver"
+            android:name=".HeadsetConnectedReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -49,19 +49,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".SongListActivity"
-            android:label="@string/title_activity_song_list" >
-        </activity>
-
-        <receiver
-            android:name=".HeadsetButtonReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.media_button" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

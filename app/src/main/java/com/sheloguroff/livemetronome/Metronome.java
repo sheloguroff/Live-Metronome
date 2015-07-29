@@ -11,8 +11,8 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Metronome {
 
+public class Metronome {
 
     int sampleRate = 44100;
     int playState = 0;
@@ -23,6 +23,7 @@ public class Metronome {
     int markerDelay = 3000;
     int lastBpm = 60;
 
+    /** Creates AudioTrack with one click and sets loop to match given bpm */
     public void createPlayer(final int bpm, InputStream in, final Handler handler) {
         metronomeTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
                 AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
@@ -38,6 +39,9 @@ public class Metronome {
 
 
 
+    /** Sets marker close the end of the track (when setting it right at the end the listener
+     * doesn't work). Passes message to the handler in main activity when the marker is reached.
+     * */
     private void setListener(final Handler handler) {
         metronomeTrack.setNotificationMarkerPosition(loopPoints-markerDelay);
         AudioTrack.OnPlaybackPositionUpdateListener clickListener = new AudioTrack.OnPlaybackPositionUpdateListener() {
@@ -55,6 +59,9 @@ public class Metronome {
         metronomeTrack.setPlaybackPositionUpdateListener(clickListener, handler);
     }
 
+
+    /** Sets marker on AudioTrack. When marker is reached it sends message once and
+     * doesn't do the job in the next loop. So it should be set again.*/
     public void setMarker () {
         metronomeTrack.setNotificationMarkerPosition(loopPoints - markerDelay);
     }
@@ -77,6 +84,8 @@ public class Metronome {
         return loopPoints;
     }
 
+    /** Receives tempo in bpm and converts it to a length of a loop in samples.
+     * Then sets the loop length. */
     public void setLoopPoints(int bpm) {
         loopPoints = 60 * sampleRate / bpm;
         metronomeTrack.setLoopPoints(0, loopPoints, -1);
@@ -88,6 +97,9 @@ public class Metronome {
     }
 
 
+    /** Receives tempo in bpm and converts it to a length of a loop in samples.
+     * Then sets the loop length and marker position. If head position is beyond the new loop, sets it
+     * to the first sample of the track. If metronome was playing, goes on playing. */
     public void setTempo (int bpm){
         playState = metronomeTrack.getPlayState();
                            metronomeTrack.pause();
@@ -105,6 +117,7 @@ public class Metronome {
     }
 
 
+    /** Compensates the computing delay to let the click start exactly in time. */
     public void compensateDelay () {
         metronomeTrack.pause();
         metronomeTrack.setPlaybackHeadPosition(metronomeTrack.getPlaybackHeadPosition()+3000);
@@ -112,6 +125,7 @@ public class Metronome {
         Log.i("CompensateDelay", "Done!");
     }
 
+   /** Pauses click for d millis */
     public void setDelay (int d){
         metronomeTrack.pause();
         SystemClock.sleep(d);
@@ -119,11 +133,12 @@ public class Metronome {
     }
             
 
+    /** Loads the sound of a click in array of bytes to the Audiotrack */
     public void loadSound(InputStream in) throws IOException
     {
-        byte[] music = new byte[8544];
+        byte[] click = new byte[8544];
         try {
-            in.read(music);
+            in.read(click);
         }catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -133,6 +148,6 @@ public class Metronome {
                 e.printStackTrace();
             }
         }
-        metronomeTrack.write(music, 0, music.length);
+        metronomeTrack.write(click, 0, click.length);
     }
 }

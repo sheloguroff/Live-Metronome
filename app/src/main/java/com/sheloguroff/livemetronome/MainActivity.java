@@ -62,11 +62,11 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
     int bpm3 = 100;
     int bpm4 = 110;
     int bpm5 = 120;
-    String songName1 = "Песня1";
-    String songName2 = "Песня2";
-    String songName3 = "Песня3";
-    String songName4 = "Песня4";
-    String songName5 = "Песня5";
+    String songName1 = "Song 1";
+    String songName2 = "Song 2";
+    String songName3 = "Song 3";
+    String songName4 = "Song 4";
+    String songName5 = "Song 5";
 
     GestureDetector detector;
     float bpmf;
