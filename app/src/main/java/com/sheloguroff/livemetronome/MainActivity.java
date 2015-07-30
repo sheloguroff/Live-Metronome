@@ -153,6 +153,20 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         flashFadeout = AnimationUtils.loadAnimation(this, R.anim.flash_fadeout);
         loadSong(songNumber);
         bpmTextView.setText(String.valueOf(bpm));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Thank you for testing Live Metronome!")
+                .setMessage("This is an alpha version, tested only on API10 (Android 2.3.6). " +
+                        "It may fail to work on other API.")
+                .setCancelable(false)
+                .setNegativeButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
